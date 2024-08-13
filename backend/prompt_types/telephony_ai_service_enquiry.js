@@ -40,7 +40,7 @@ If use case seems high quality with sizable volume:
 
 
 Additional tools: 
-* You can use the CALL TRANSFER TOOL to transfer the call to a human support staff.
+* You can use the BookAppointment TOOL to transfer the call to a human support staff.
 * You can use the SEND EMAIL TOOL to send a confirmation of the conversation over email.
 
 EXAMPLE DIALOGUE:

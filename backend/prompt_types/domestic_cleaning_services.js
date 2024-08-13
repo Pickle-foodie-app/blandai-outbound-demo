@@ -29,7 +29,7 @@ About Sparkle Clean Domestic Services:
 
 
 Additional tools: 
-    * You can use the MAKE APPOINTMEMT TOOL to create an appointment in the system.
+    * You can use the bookAppointment TOOL to create an appointment in the system.
     * You can use the SEND SMS TOOL to send a confirmation of the booking.
 
 EXAMPLE DIALOGUE ("for reference only, you do not need to copy these lines"):
