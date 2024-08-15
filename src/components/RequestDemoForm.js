@@ -11,7 +11,7 @@ const RequestDemoForm = () => {
     email: "",
     phoneNumber: "",
     companyName: "",
-    role: "",
+    businessType: "",
     useCase: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,7 +34,7 @@ const RequestDemoForm = () => {
       await axios.post("http://localhost:4000/request-demo", formData);
       toast("Phone call sent!", { type: "success" });
     } catch (error) {
-      toast("Error dispatching phone call!", { type: "error" });
+      toast("Error dispatching phone call", { type: "error" });
     }
     setIsSubmitting(false);
   };
@@ -81,7 +81,7 @@ const RequestDemoForm = () => {
           type="tel"
           name="phoneNumber"
           onChange={handleChange}
-          placeholder="Enter your phone number"
+          placeholder="Your phone number (including country code)"
           className={inputStyle}
           required
         />
@@ -100,37 +100,26 @@ const RequestDemoForm = () => {
       </label>
 
       <label className="block">
-        <span className="text-gray-700">Role</span>
+        <span className="text-gray-700">Business Type</span>
         <select
-          name="role"
+          name="businessType"
           onChange={handleChange}
           className={inputStyle}
           required
         >
-          <option value="">Select your role</option>
-          <option value="ceo">CEO/President</option>
-          <option value="cto">CTO</option>
-          <option value="cfo">CFO</option>
-          <option value="vp_sales">VP of Sales</option>
-          <option value="sales_manager">Sales Manager</option>
-          <option value="marketing_manager">Marketing Manager</option>
-          <option value="hr_manager">HR Manager</option>
-          <option value="it_manager">IT Manager</option>
-          <option value="product_manager">Product Manager</option>
-          <option value="customer_service_rep">
-            Customer Service Representative
-          </option>
-          <option value="developer">Software Developer</option>
-          <option value="data_analyst">Data Analyst</option>
+          <option value="">Select your business type</option>
+          <option value="Automotive Mechanics">Automotive Mechanics</option>
+          <option value="Cleaning Services">Cleaning Services</option>
+          <option value="General Product Enquiry">General Product Enquiry</option>
         </select>
       </label>
 
       <label className="block">
-        <span className={labelStyle}>Use case</span>
+        <span className={labelStyle}>Use cases</span>
         <textarea
           name="useCase"
           onChange={handleChange}
-          placeholder="Enter information about your use case"
+          placeholder="Provide information or describe your use cases"
           className={inputStyle}
         ></textarea>
       </label>
@@ -155,7 +144,7 @@ const RequestDemoForm = () => {
           />
         )}
 
-        <span className="ml-2">Request Demo</span>
+        <span className="ml-2">Request a chirp</span>
       </button>
     </form>
   );
