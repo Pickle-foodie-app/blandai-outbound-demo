@@ -54,7 +54,7 @@ app.post("/request-demo", (req, res) => {
         "customer_name": "{{input.customer_name}}",
     },
     "input_schema": {
-        /*"example": {
+        "example": {
             "speech": "Got it - one second while I book your appointment for tomorrow at 10 AM.",
             "date": "2024-04-20",
             "time": "10:00 AM",
@@ -62,7 +62,7 @@ app.post("/request-demo", (req, res) => {
             "service_location": "Preston",
             "customer_mobile_number": "0400123456",
             "customer_name": "Jess Sherger"
-        },*/
+        },
         "type": "object",
         "properties": {
             "speech": "string",
