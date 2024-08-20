@@ -32,6 +32,18 @@ Once again run 'npm install` to install your dependencies.
 
 Next, to run your server, type `node server.js` into your terminal. Your server should start running on port 4000.
 
+# Webhook listener setup
+
+In the same terminal where you ran `node server.js`, check to make sure a Ngrok transient secure web address has been allocated to this particular instance of your local server. This web address will forward all incoming webhooks from the internet (Mainly from Zapier) to your local server on port 4000 (or whatever you configure your port to be). 
+
+The updated transient web address details on server start are automatically sent to Zapier so that they're dynamically fetched in each instance of a zap workflow run. 
+
+⚠️**note**: Go to your `.env` and add a new entry as `ADDRESS_UPDATE_ZAP_ENDPOINT=<YourZapWebhook>`. This Zap webhook captures the new address and webhook end point and proceeds to store or update it into the Zapier Param Store as part of the Zap workflow. You will need to create a single zap work flow in your own account that does that. 
+
+Once this workflow is setup, you can use the Python or JS ClientStore SDK in Zap code to then dynamically reference the updated address.
+
+The benefit in this design means that you will never need to update multiple zap workflows to accommodate a new webhook address update each time you restart your server and ngrok allocates a new random web address.
+
 ## Getting Your API key
 
 At this point you've hooked everything up! But you've still go some work left.
