@@ -9,14 +9,18 @@ const getDomesticCleaningServicesPrompt = require("./prompt_types/domestic_clean
 const getTelephonyAIServiceEnquiryPrompt = require("./prompt_types/telephony_ai_service_enquiry");
 const bookAppointmentTool = require("./tool_templates/bookAppointment");
 const updateBookingTool = require("./tool_templates/updateBooking");
+const ngrok = require("ngrok");
+
 
 // Server setup
 app.use(cors());
 app.use(express.json());
 
 // Grab the API key and set the port
+const addressChangeEndPoint = process.env.ADDRESS_UPDATE_ZAP_ENDPOINT;
 const apiKey = process.env.BLAND_API_KEY;
 const PORT = process.env.PORT || 4000;
+
 
 // Handle form submissions
 app.post("/request-demo", (req, res) => {
@@ -56,9 +60,9 @@ app.post("/request-demo", (req, res) => {
   // create a http agent with the option to reject SSL cert validation due to issue i am encountering. 
   const httpAgent = new https.Agent({ rejectUnauthorized: false });
   
+  console.log("Request Data:", data.tools);
+
   // Dispatch the phone call
-console.log("Request Data:", data.tools);
-  
   axios
     .post("https://api.bland.ai/v1/calls", data, {
       headers: {
@@ -91,4 +95,39 @@ console.log("Request Data:", data.tools);
 });
 
 
+// Webhook endpoint listener
+const webhookEndpoint = "/agentchirplistener";
+app.post(webhookEndpoint, (req, res) => {
+  console.log("Received data:", req.body);
+
+  // process webhook data here
+  console.log(req.body);
+
+  res.status(200).send({ message: "Webhook received", status: "success"});
+});
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+// Setup an Ngrok Web Address to forward webhooks to local port. It also automatically updates zapier with new transient address
+ngrok.connect({ addr: 4000, authtoken_from_env: true })
+    .then(listener => {console.log('Ngrok transient web address running on:', listener);
+
+    const newAddressData = [{
+      "newTransientWebAddress": listener,
+      "webHookEndPoint": webhookEndpoint
+    }];
+    // Update this zap webhook address if you choose to point to a different account. 
+    const zapHook = addressChangeEndPoint
+
+    return axios.post(zapHook, newAddressData)
+      .then(response => {
+        console.log('New server instance - webhook address update response:', response.data);
+      })
+      .catch(err => {console.error('Webhook address update error message:', err);
+      });
+    })
+
+    .catch(err => console.error('Ngrok error message:', err));
+
+    
